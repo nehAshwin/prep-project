@@ -1,7 +1,7 @@
 // package: folder/namespace to organize Java classes
-package com.example.springboot
+package com.example.springboot;
 
-import Java.util.Arrays;
+import java.util.Arrays;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,7 +30,8 @@ public class Application {
     }
 
     // Bean: managed object
-    // Bean annotation tells Spring to call this method at startup & store its return output
+    // Bean annotation tells Spring that the object output should become a Spring bean
+    // Spring will store return output in ApplicationContext
     @Bean
     //                                         master container -> stores beans, etc. 
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
