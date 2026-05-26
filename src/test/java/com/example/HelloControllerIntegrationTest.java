@@ -5,7 +5,7 @@ uses RestTestClient to send an HTTP request like a real client
 tests more similar to production
 */
 
-package com/example.springboot;
+package com.example.springboot;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.client.RestTestClient;
 public class HelloControllerIntegrationTest {
 
     @Autowired
-    private RestTestCleint client;
+    private RestTestClient client;
 
     @Test
     public void getHello() {
