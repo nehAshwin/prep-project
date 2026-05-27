@@ -10,6 +10,8 @@ public class Device {
     private String name;
     private String type;
 
+    public Device() {}
+
     public Device(Long id, String name, String type) {
         this.id = id;
         this.name = name;
@@ -27,5 +29,18 @@ public class Device {
 
     public String getType() {
         return type;
+    }
+
+    // add setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

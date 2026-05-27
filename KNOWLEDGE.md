@@ -1,6 +1,17 @@
 # Spring Boot Learning Notes
 
-A living document to capture concepts, observations, and useful references as I work through this Spring Boot project.
+Concept-focused notes on Spring Boot. Add depth under each section as you learn more.
+
+## Table of contents
+
+1. [Foundations](#1-foundations) — Spring Boot, dependency injection, beans
+2. [Build and dependencies](#2-build-and-dependencies) — Gradle, starters
+3. [Domain models and JSON](#3-domain-models-and-json-serialization) — models, encapsulation, Jackson
+4. [Web layer](#4-web-layer) — REST, request flow, path variables, SRP, annotations
+5. [Testing](#5-testing) — unit vs integration, MockMvc vs RestTestClient
+6. [Quick reference](#6-quick-reference--annotations) — annotation cheat sheet
+
+---
 
 ## 1. Foundations
 
@@ -106,19 +117,37 @@ As the app grows, logic often splits across layers:
 
 HTTP request → controller → service → repository → database
 
-### Web annotations
+### Path variables
 
+A **path variable** is a dynamic segment in a URL. Instead of writing a separate endpoint for every device, you define a placeholder in the path with `{name}` and annotate the method parameter with `@PathVariable`.
+
+For example, `@GetMapping("/devices/{id}")` matches `/devices/1`, `/devices/2`, etc. Spring extracts the value from the URL and passes it to the method parameter.
+
+### Single Responsibility Principle (SRP)
+
+Each layer in the request flow should have **one primary job**:
+
+| Layer          | Responsibility                                      |
+| -------------- | --------------------------------------------------- |
+| **Controller** | Accept HTTP requests, delegate work, return responses |
+| **Service**    | Business logic and data manipulation                |
+| **Repository** | Database access (when added)                        |
+| **Model**      | Represent domain data (fields, getters/setters)     |
+
+Controllers should **not** contain business logic or data. Services should **not** know about HTTP or JSON. Keeping responsibilities separated makes each layer easier to understand, test, and change independently.
+
+### Web annotations
 
 | Annotation        | Purpose                                                        |
 | ----------------- | -------------------------------------------------------------- |
 | `@RestController` | Class handles API / web requests                               |
 | `@GetMapping`     | Maps a method to an HTTP GET request                           |
 | `@PostMapping`    | Maps a method to an HTTP POST request                          |
+| `@PathVariable`   | Inject a URL path segment as a method parameter                |
 | `@Service`        | Business logic layer                                           |
 | `@Repository`     | Database access layer                                          |
 | `@Entity`         | Maps a Java class to a database table                          |
 | `@Autowired`      | Inject a Spring-managed dependency into a field or constructor |
-
 
 ---
 
@@ -163,6 +192,7 @@ Both can assert status codes and response bodies; they differ in how realistic a
 | `@RestController`        | API controller                                |
 | `@GetMapping`            | HTTP GET endpoint                             |
 | `@PostMapping`           | HTTP POST endpoint                            |
+| `@PathVariable`          | Inject URL path segment as method parameter   |
 | `@Service`               | Business logic                                |
 | `@Repository`            | Database layer                                |
 | `@Autowired`             | Inject a dependency                           |
