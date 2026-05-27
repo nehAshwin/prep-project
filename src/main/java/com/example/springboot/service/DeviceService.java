@@ -1,59 +1,58 @@
 package com.example.springboot.service;
 
 import com.example.springboot.Device;
+import com.example.springboot.repository.DeviceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ArrayList;
 
 @Service
 public class DeviceService {
-    private final List<Device> devices = new ArrayList<>();
 
-    public DeviceService() {
-        devices.add(new Device(1L, "Router-A", "router"));
-        devices.add(new Device(2L, "Sensor-B", "sensor"));
-        devices.add(new Device(3L, "Camera-C", "camera"));
+    // NEW: device repository that gives us access to the database
+    private final DeviceRepository deviceRepository;
+
+    // new DeviceService constructor is to connect to deviceRepository
+    public DeviceService(DeviceRepository deviceRepository) {
+        this.deviceRepository = deviceRepository;
     }
 
+    // built in commands for SQL queries like findAll()
     public List<Device> getAllDevices() {
-        return devices;
+        return deviceRepository.findAll();
     }
 
     public Device getDeviceById(Long id) {
-        for (Device device : devices) {
-            if (device.getId().equals(id)) {
-                return device;
-            }
-        }
-
-        return null;
+        return deviceRepository.findById(id)
+            .orElse(null);
     }
 
     public Device createDevice(Device device) {
-        devices.add(device);
-        return device;
+        return deviceRepository.save(device);
     }
 
+    // if device with id exists, set and save information with updatedDevice information
     public Device updateDevice(Long id, Device updatedDevice) {
-        for (int i = 0; i < devices.size(); i++) {
-            Device currentDevice = devices.get(i);
-            if (currentDevice.getId().equals(id)) {
+        Device existingDevice = deviceRepository.findById(id)
+            .orElse(null);
 
-                devices.set(i, updatedDevice);
-                return updatedDevice
-            }
+        if (existingDevice == null) {
+            return null;
         }
-        return null;
+
+        existingDevice.setName(updatedDevice.getName());
+        existingDevice.setType(updatedDevice.getType());
+
+        return deviceRepository.save(existingDevice);
     }
+
 
     public boolean deleteDevice(Long id) {
-        for (Device device : devices) {
-            if device.getId().equals(id) {
-                devices.remove(device);
-                return true;
-            }
+        if (!deviceRepository.existsById(id)) {
+            return false;
         }
-        return false;
+        deviceRepository.deleteById(id);
+
+        return true;
     }
 }

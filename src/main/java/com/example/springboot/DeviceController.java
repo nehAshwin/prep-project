@@ -54,9 +54,9 @@ public class DeviceController {
     @DeleteMapping("/devices/{id}")
     public String deleteDevice(@PathVariable Long id) {
         boolean deleted = deviceService.deleteDevice(id);
-        if deleted {
-            return "Device deleted successfully."
+        if (deleted) {
+            return "Device deleted successfully.";
         }
-        return "Error: Could not delete device."
+        return "Error: Could not delete device.";
     }
 }
