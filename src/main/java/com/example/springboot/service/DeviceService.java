@@ -1,3 +1,4 @@
+// Device Service handles device business logic for creating, reading and deleting devics
 package com.example.springboot.service;
 
 import com.example.springboot.Device;

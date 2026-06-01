@@ -1,3 +1,4 @@
+// Device Repository handles Device data access through JPA -> SQL Queries
 package com.example.springboot.repository;
 
 import com.example.springboot.Device;

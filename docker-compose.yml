@@ -1,0 +1,17 @@
+# Second Postgres instance for this project (host port 5433).
+# Your other project can keep using localhost:5432.
+services:
+  postgres:
+    image: postgres:16
+    container_name: prep-project-postgres
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: nehaashwin
+      POSTGRES_PASSWORD: prep_project
+      POSTGRES_DB: device_management
+    volumes:
+      - prep_project_pgdata:/var/lib/postgresql/data
+
+volumes:
+  prep_project_pgdata:
